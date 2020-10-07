@@ -322,7 +322,7 @@ public class RNCWebViewManager extends SimpleViewManager<WebView> {
 
   @ReactProp(name = "androidInterceptTouchEvents")
   public void setInterceptTouchEvents(WebView view, boolean enabled) {
-    mAllowInterceptTouchEvent = enabled != null ? enabled : false;
+    ((RNCWebView) view).setInterceptTouchEventsEnabled(enabled);
   }
 
   @ReactProp(name = "overScrollMode")
@@ -1193,6 +1193,7 @@ public class RNCWebViewManager extends SimpleViewManager<WebView> {
     protected boolean injectedJavaScriptBeforeContentLoadedForMainFrameOnly = true;
 
     protected boolean messagingEnabled = false;
+    protected boolean interceptTouchEventsEnabled = false;
     protected @Nullable
     String messagingModuleName;
     protected @Nullable
@@ -1324,6 +1325,14 @@ public class RNCWebViewManager extends SimpleViewManager<WebView> {
       } else {
         removeJavascriptInterface(JAVASCRIPT_INTERFACE);
       }
+    }
+
+    public void setInterceptTouchEventsEnabled(boolean enabled) {
+      if (interceptTouchEventsEnabled == enabled) {
+        return;
+      }
+
+      interceptTouchEventsEnabled = enabled;
     }
 
     public void setMessagingModuleName(String moduleName) {
@@ -1476,7 +1485,7 @@ public class RNCWebViewManager extends SimpleViewManager<WebView> {
 
     @Override
     public boolean onTouchEvent(MotionEvent event){
-      if (mAllowInterceptTouchEvent) {
+      if (interceptTouchEventsEnabled) {
         requestDisallowInterceptTouchEvent(true);
       }
       return super.onTouchEvent(event);
