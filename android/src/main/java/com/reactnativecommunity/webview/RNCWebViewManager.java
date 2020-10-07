@@ -38,6 +38,7 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
+import android.view.MotionEvent;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
