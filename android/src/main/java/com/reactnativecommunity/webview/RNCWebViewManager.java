@@ -146,6 +146,7 @@ public class RNCWebViewManager extends SimpleViewManager<WebView> {
 
   protected RNCWebChromeClient mWebChromeClient = null;
   protected boolean mAllowsFullscreenVideo = false;
+  protected boolean mAllowInterceptTouchEvent = false;
   protected @Nullable String mUserAgent = null;
   protected @Nullable String mUserAgentWithApplicationName = null;
 
@@ -319,6 +320,10 @@ public class RNCWebViewManager extends SimpleViewManager<WebView> {
     view.setLayerType(layerType, null);
   }
 
+  @ReactProp(name = "androidInterceptTouchEvents")
+  public void setInterceptTouchEvents(WebView view, boolean enabled) {
+    mAllowInterceptTouchEvent = enabled != null ? enabled : false;
+  }
 
   @ReactProp(name = "overScrollMode")
   public void setOverScrollMode(WebView view, String overScrollModeString) {
@@ -1467,6 +1472,14 @@ public class RNCWebViewManager extends SimpleViewManager<WebView> {
       public boolean isWaitingForCommandLoadUrl() {
         return waitingForCommandLoadUrl;
       }
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event){
+      if (mAllowInterceptTouchEvent) {
+        requestDisallowInterceptTouchEvent(true);
+      }
+      return super.onTouchEvent(event);
     }
   }
 }

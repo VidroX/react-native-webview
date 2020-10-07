@@ -870,6 +870,11 @@ export interface AndroidWebViewProps extends WebViewSharedProps {
    * Sets ability to open fullscreen videos on Android devices.
    */
   allowsFullscreenVideo?: boolean;
+
+  /**
+   * Adds ability to intercept parent touch events.
+   */
+  androidInterceptTouchEvents?: boolean;
 }
 
 export interface WebViewSharedProps extends ViewProps {
